@@ -14,18 +14,21 @@ sends its move back in UCI.
   (depths 1–6), a fixed node budget per depth (no clock — the
   trials replay byte-for-byte), quiescence over captures and
   promotions (and every reply to a check), a transposition table
-  (Zobrist hashing), killer moves, MVV-LVA capture ordering, and
-  null-move pruning.
+  (Zobrist hashing, 262,144 entries), killer moves, a history
+  heuristic and MVV-LVA capture ordering, late-move reductions
+  for late quiet moves, and null-move pruning with a null window.
+  The root tries the previous depth's best move first.
 - **Evaluation:** material plus the standard Michniewski
   piece-square tables (precomputed into a lookup table at
-  startup), a bishop-pair bonus, and a draw score for repetitions
+  startup), a bishop-pair bonus, a small tempo bonus for the
+  side to move, and a draw score for repetitions
   inside the search.
 - **Time:** resigns when the root score is below −1600 so lost
   games do not burn the trial wall clock.
 
 ## Files
 
-- `main.py` — the entrypoint (2,571 bytes). It is the packed
+- `main.py` — the entrypoint (2,647 bytes). It is the packed
   form of `src.py`, produced by the kit's `makefun compress`
   (an LZMA stream plus the `makefun-compress/v1` stub). It is
   the only file the engine reads or runs.
