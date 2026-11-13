@@ -79,6 +79,11 @@ then commit `main.py`.
   parses as `m>>12` and crashes with IndexError on any
   promotion move; it is now `(m>>14)-2`, verified against
   all eight promotion UCI strings.
+- trial-8 (cumulative node budget 200k/move + delta pruning
+  in quiescence): Elo 1396 (3 wins, 2 draws, 3 losses;
+  wall 1328 s). Trial-9 (same engine, instance 0): Elo
+  1326 (2 wins, 3 draws, 3 losses; wall 1373 s). Mean
+  1361 — above the ~1325 house baseline.
 
 Note: the submitted commit 1b6cf7d holds the older
 formula-PST engine (trial-1, Elo 989), not the 1253
