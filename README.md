@@ -11,11 +11,13 @@ the position, and sends its move back in UCI.
 - **Board:** 0x88 (128 squares), signed pieces, incremental
   evaluation so make/unmake is cheap.
 - **Search:** negamax alpha-beta with iterative deepening
-  (depths 1–6), a cumulative node budget of 200,000 nodes
+  (depths 1–7), principal-variation search (zero-window
+  re-searches on moves after the first), a cumulative node
+  budget of 200,000 nodes
   per move (no clock — trials replay byte-for-byte),
   quiescence over captures and promotions (and every reply
   to a check) with delta pruning, a transposition table
-  (Zobrist hashing), killer moves, MVV-LVA capture ordering,
+  (Zobrist hashing, 2^18 entries), killer moves, MVV-LVA capture ordering,
   and null-move pruning.
 - **Evaluation:** material plus the standard Michniewski
   piece-square tables (precomputed into a lookup table at
@@ -26,7 +28,7 @@ the position, and sends its move back in UCI.
 
 ## Files
 
-- `main.py` — the entrypoint (2,568 bytes). It is the packed
+- `main.py` — the entrypoint (2,614 bytes). It is the packed
   form of `src.py`, produced by the kit's `makefun compress`
   (an LZMA stream plus the `makefun-compress/v1` stub). It is
   the only file the engine reads or runs.
@@ -63,10 +65,16 @@ then commit `main.py`.
 ## Local results (practice instances)
 
 - Baseline (Michniewski tables, 100k nodes/move): Elo 1253.
-- Current engine (cumulative 200k-node budget + delta
+- Previous engine (cumulative 200k-node budget + delta
   pruning): trial-8 Elo 1396, trial-9 Elo 1326, mean 1361 —
   above the ~1325 house baseline (sunfish). Practice floor
   to enter the final is 1154.
+- Current engine (PVS + depth 7 + 2^18-entry TT): trial-10
+  (instance 0, the graded instance) Elo 1396, 3W 2D 3L —
+  beats the 1326 trial-9 baseline on the graded instance.
+  Trial-11 (instance 2) was interrupted by a runtime
+  restart and did not complete. Trial-10 wall 1736s of the
+  1800s budget — close to the wall, watch it.
 
 ## Verification
 
