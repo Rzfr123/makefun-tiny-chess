@@ -25,7 +25,7 @@ sends its move back in UCI.
 
 ## Files
 
-- `main.py` — the entrypoint (2,742 bytes). It is the packed
+- `main.py` — the entrypoint (2,568 bytes). It is the packed
   form of `src.py`, produced by the kit's `makefun compress`
   (an LZMA stream plus the `makefun-compress/v1` stub). It is
   the only file the engine reads or runs.
